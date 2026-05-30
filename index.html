@@ -31,7 +31,6 @@
     overflow-x: hidden;
   }
 
-  /* ──── NAV ──── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
@@ -69,39 +68,23 @@
   }
   .nav-cta:hover { background: var(--fit-dark) !important; }
 
-  /* ──── HERO ──── */
   #hero {
     min-height: 100vh;
     background: linear-gradient(160deg, #f5efe0 0%, #fefcf5 30%, #e8f3dd 70%, #fefcf5 100%);
+    display: flex; flex-direction: column;
+    padding: 120px 5% 0;
+    position: relative;
+  }
+  .hero-inner {
+    flex: 1;
     display: flex; align-items: center;
-    padding: 120px 5% 80px;
-    position: relative; overflow: hidden;
   }
-  #hero::before {
-    content: '';
-    position: absolute; top: -150px; right: -150px;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(109,190,61,0.08) 0%, transparent 70%);
-    border-radius: 50%;
-  }
-  #hero::after {
-    content: '';
-    position: absolute; bottom: -120px; left: -120px;
-    width: 450px; height: 450px;
-    background: radial-gradient(circle, rgba(245,124,32,0.06) 0%, transparent 65%);
-    border-radius: 50%;
-  }
-
   .hero-container {
     display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
     max-width: 1200px; margin: 0 auto; width: 100%;
     align-items: center;
   }
-
-  .hero-left {
-    text-align: center;
-  }
-
+  .hero-left { text-align: center; }
   .hero-right {
     display: flex; flex-direction: column; gap: 24px;
   }
@@ -135,8 +118,20 @@
     z-index: 2;
   }
   .unmute-btn:hover { background: rgba(0,0,0,0.75); }
+  .replay-btn {
+    position: absolute; bottom: 14px; left: 14px;
+    width: 40px; height: 40px; border-radius: 50%;
+    border: none; cursor: pointer;
+    background: rgba(0,0,0,0.55);
+    color: #fff; font-size: 1.3rem;
+    display: none; align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+    transition: background .2s;
+    z-index: 2;
+  }
+  .replay-btn:hover { background: rgba(0,0,0,0.75); }
+  .replay-btn.show { display: flex; }
 
-  /* Hoarding-style logo */
   .hoarding-logo {
     display: inline-flex; align-items: center; gap: 4px;
     margin-bottom: 16px;
@@ -173,7 +168,6 @@
     font-size: clamp(1.2rem, 2.5vw, 1.8rem);
     transform: rotate(10deg);
   }
-
   .juice-cup-float {
     position: absolute;
     right: -40px; bottom: -10px;
@@ -181,7 +175,6 @@
     transform: rotate(15deg);
   }
 
-  /* Tagline ribbon */
   .tagline-ribbon {
     display: inline-block;
     background: var(--dark-green);
@@ -205,7 +198,6 @@
   .tagline-ribbon::before { left: 12px; }
   .tagline-ribbon::after { right: 12px; }
 
-  /* Right-side "Juice Cafe" badge */
   .juice-cafe-badge {
     display: inline-flex; align-items: center;
     background: var(--white);
@@ -216,9 +208,7 @@
     margin-bottom: 40px;
     box-shadow: 0 4px 16px rgba(220,53,69,0.12);
   }
-  .juice-cafe-badge .orange-icon {
-    font-size: 1.6rem;
-  }
+  .juice-cafe-badge .orange-icon { font-size: 1.6rem; }
   .juice-cafe-badge .label {
     font-family: 'Luckiest Guy', cursive;
     font-size: 1.5rem;
@@ -253,7 +243,60 @@
   }
   .btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(245,124,32,0.45); }
 
-  /* ──── MENU BADGES SECTION ──── */
+  .btn-outline {
+    background: transparent; color: var(--sip-dark);
+    padding: 14px 28px; border-radius: 50px;
+    font-weight: 800; font-size: .95rem; text-decoration: none;
+    border: 2.5px solid var(--sip);
+    transition: all .2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline:hover { background: var(--sip); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(109,190,61,0.25); }
+
+  .hero-contact {
+    margin-top: 30px;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+    font-size: .88rem; font-weight: 600; color: var(--gray);
+  }
+  .hero-contact span { display: inline-flex; align-items: center; gap: 6px; }
+  .hero-contact .contact-icon { font-size: 1.1rem; }
+
+  .order-popup {
+    display: none;
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    background: var(--white); padding: 32px 28px; border-radius: var(--radius);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    z-index: 200; text-align: center;
+    max-width: 340px; width: 90%;
+  }
+  .order-popup.show { display: block; }
+  .order-popup h3 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 1.8rem; color: var(--sip); margin-bottom: 6px;
+  }
+  .order-popup p { color: var(--gray); font-size: .9rem; margin-bottom: 20px; }
+  .order-popup .popup-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; background: var(--cream);
+    border-radius: 12px; margin-bottom: 10px;
+    font-weight: 700; font-size: 1rem; text-align: left;
+  }
+  .order-popup .popup-row .ico { font-size: 1.3rem; }
+  .order-popup-close {
+    margin-top: 14px; background: var(--sip); color: #fff;
+    border: none; padding: 10px 28px; border-radius: 50px;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: .9rem;
+    cursor: pointer; transition: background .2s;
+  }
+  .order-popup-close:hover { background: var(--sip-dark); }
+  .overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 199;
+  }
+  .overlay.show { display: block; }
+
   #menu-badges {
     padding: 80px 5% 100px;
     background: var(--white);
@@ -283,12 +326,10 @@
     max-width: 900px;
     margin: 0 auto;
   }
-
   .badge-item {
     display: flex; flex-direction: column; align-items: center; gap: 16px;
     text-align: center;
   }
-
   .badge-circle {
     width: 160px; height: 160px;
     border-radius: 50%;
@@ -297,29 +338,17 @@
     box-shadow: 0 8px 28px rgba(0,0,0,0.08);
     border: 4px solid var(--cream);
     transition: transform .25s, box-shadow .25s;
-    position: relative;
   }
   .badge-circle:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 12px 36px rgba(0,0,0,0.14); }
-
   .bc1 { background: linear-gradient(135deg, #d4a0d4, #b873c8); }
   .bc2 { background: linear-gradient(135deg, #faca7a, #f8b04a); }
   .bc3 { background: linear-gradient(135deg, #e8a87c, #d4875c); }
   .bc4 { background: linear-gradient(135deg, #7dcd85, #4fa854); }
   .bc5 { background: linear-gradient(135deg, #f7c948, #f5a623); }
   .bc6 { background: linear-gradient(135deg, #b484d4, #9250b8); }
+  .badge-label { font-weight: 800; font-size: .95rem; color: var(--dark); letter-spacing: .3px; }
+  .badge-price { font-family: 'Arvo', serif; font-size: 1rem; color: var(--fit); font-weight: 700; }
 
-  .badge-label {
-    font-weight: 800; font-size: .95rem; color: var(--dark);
-    letter-spacing: .3px;
-  }
-
-  .badge-price {
-    font-family: 'Arvo', serif;
-    font-size: 1rem; color: var(--fit);
-    font-weight: 700;
-  }
-
-  /* ──── ABOUT ──── */
   #about {
     padding: 90px 5%;
     background: linear-gradient(135deg, #f5efe0, #e8f3dd);
@@ -358,7 +387,6 @@
   .about-highlight .lbl {
     font-size: .82rem; color: var(--gray); font-weight: 600;
   }
-
   .about-visual {
     display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
   }
@@ -374,7 +402,6 @@
   .ac3 { background: #fff2e0; color: var(--fit-dark); margin-top: -20px; }
   .ac4 { background: #e8f3dd; color: var(--sip-dark); }
 
-  /* ──── FOOTER ──── */
   footer {
     background: var(--dark);
     color: rgba(255,255,255,.7);
@@ -389,7 +416,7 @@
   .footer-col h4 { font-weight: 800; color: #fff; margin-bottom: 16px; font-size: .95rem; letter-spacing: .5px; }
   .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
   .footer-col ul a { color: rgba(255,255,255,.6); text-decoration: none; font-size: .9rem; transition: color .2s; }
-  .footer-col ul a:hover { color: var(--sip-light); }
+  .footer-col ul a:hover { color: var(--sip); }
   .social-links { display: flex; gap: 12px; margin-top: 20px; }
   .social-btn {
     width: 42px; height: 42px; border-radius: 12px;
@@ -410,20 +437,12 @@
   }
   .footer-bottom a { color: var(--sip); text-decoration: none; }
 
-  /* ──── ANIMATIONS ──── */
   .reveal {
     opacity: 0; transform: translateY(24px);
     transition: opacity .6s ease, transform .6s ease;
   }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  @keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-  .float-anim { animation: float 3s ease-in-out infinite; }
-
-  /* ──── MOBILE ──── */
   @media (max-width: 768px) {
     .menu-badge-grid { grid-template-columns: repeat(2, 1fr); }
     .about-inner { grid-template-columns: 1fr; gap: 36px; }
@@ -448,7 +467,6 @@
 </head>
 <body>
 
-<!-- ──── NAV ──── -->
 <nav>
   <a href="#hero" class="nav-logo">
     <span class="sip">Sip</span><span class="fit">Fit</span>
@@ -456,12 +474,12 @@
   <ul class="nav-links">
     <li><a href="#menu-badges">Menu</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="#menu-badges" class="nav-cta">Order Now</a></li>
+    <li><a href="#" class="nav-cta" id="orderBtn">Order Now</a></li>
   </ul>
 </nav>
 
-<!-- ──── HERO (Hoarding-inspired) ──── -->
 <section id="hero">
+  <div class="hero-inner">
   <div class="hero-container">
     <div class="hero-left">
       <div class="hoarding-logo">
@@ -482,6 +500,13 @@
       <div class="hero-btns">
         <a href="#menu-badges" class="btn-primary">🧃 Explore Menu</a>
         <a href="#about" class="btn-secondary">📖 Our Story</a>
+        <a href="https://www.google.com/maps/place/SipFit+Juice/@18.5880947,73.9671846,19z/data=!3m1!4b1!4m6!3m5!1s0x3bc2c54d070464fb:0x815ec35e71878af7!8m2!3d18.5880934!4d73.9678283!16s%2Fg%2F11zb1d6pcl?entry=ttu&g_ep=EgoyMDI2MDUyNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn-outline">📍 Find my juice bar</a>
+      </div>
+
+      <div class="hero-contact">
+        <span><span class="contact-icon">📍</span> Your address here</span>
+        <span><span class="contact-icon">📞</span> +91 98765 43210</span>
+        <span><span class="contact-icon">🕐</span> Mon–Fri 7AM–8PM | Sat–Sun 8AM–6PM</span>
       </div>
     </div>
 
@@ -490,16 +515,17 @@
         <img src="images/sipfithoarding.JPG" alt="SipFit">
       </div>
       <div class="hero-video-wrap">
-        <video autoplay muted loop playsinline id="heroVideo">
+        <video autoplay muted playsinline id="heroVideo">
           <source src="images/sipfit.mp4" type="video/mp4">
         </video>
+        <button class="replay-btn" id="replayBtn" title="Replay">↻</button>
         <button class="unmute-btn" id="unmuteBtn" title="Unmute">🔇</button>
       </div>
     </div>
   </div>
+  </div>
 </section>
 
-<!-- ──── MENU BADGES (3x2 grid from hoarding) ──── -->
 <section id="menu-badges">
   <div class="badges-header reveal">
     <div class="section-label">What We Serve</div>
@@ -541,7 +567,6 @@
   </div>
 </section>
 
-<!-- ──── ABOUT ──── -->
 <section id="about">
   <div class="about-inner">
     <div class="about-text reveal">
@@ -588,7 +613,6 @@
   </div>
 </section>
 
-<!-- ──── FOOTER ──── -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
@@ -623,8 +647,23 @@
   </div>
 </footer>
 
+<div class="overlay" id="overlay"></div>
+
+<div class="order-popup" id="orderPopup">
+  <h3>Order Now 🥤</h3>
+  <p>Call or visit us to place your order</p>
+  <div class="popup-row">
+    <span class="ico">📍</span>
+    <span>Your address here</span>
+  </div>
+  <div class="popup-row">
+    <span class="ico">📞</span>
+    <span>+91 98765 43210</span>
+  </div>
+  <button class="order-popup-close" id="popupClose">Got it!</button>
+</div>
+
 <script>
-  // ── Scroll reveal ──
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
@@ -632,21 +671,38 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // ── Nav shrink on scroll ──
   window.addEventListener('scroll', () => {
     const nav = document.querySelector('nav');
     nav.style.padding = window.scrollY > 60 ? '8px 5%' : '12px 5%';
   });
 
-  // ── Unmute toggle ──
   const heroVideo = document.getElementById('heroVideo');
   const unmuteBtn = document.getElementById('unmuteBtn');
-  if (heroVideo && unmuteBtn) {
+  const replayBtn = document.getElementById('replayBtn');
+  if (heroVideo && unmuteBtn && replayBtn) {
+    heroVideo.addEventListener('ended', () => { replayBtn.classList.add('show'); });
+    replayBtn.addEventListener('click', () => {
+      heroVideo.currentTime = 0;
+      heroVideo.play();
+      replayBtn.classList.remove('show');
+    });
     unmuteBtn.addEventListener('click', () => {
       heroVideo.muted = !heroVideo.muted;
       unmuteBtn.textContent = heroVideo.muted ? '🔇' : '🔊';
       unmuteBtn.title = heroVideo.muted ? 'Unmute' : 'Mute';
     });
+  }
+
+  const orderBtn = document.getElementById('orderBtn');
+  const orderPopup = document.getElementById('orderPopup');
+  const overlay = document.getElementById('overlay');
+  const popupClose = document.getElementById('popupClose');
+  if (orderBtn && orderPopup && overlay && popupClose) {
+    const showPopup = () => { orderPopup.classList.add('show'); overlay.classList.add('show'); };
+    const hidePopup = () => { orderPopup.classList.remove('show'); overlay.classList.remove('show'); };
+    orderBtn.addEventListener('click', e => { e.preventDefault(); showPopup(); });
+    popupClose.addEventListener('click', hidePopup);
+    overlay.addEventListener('click', hidePopup);
   }
 </script>
 </body>
